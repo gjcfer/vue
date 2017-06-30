@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <v-header></v-header>
+    <v-header :seller="seller"></v-header>
     <div class="tab">
         <div class="tab-item">
           <router-link to="/goods">商品</router-link>
@@ -16,18 +16,33 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   import header from './components/header/header';
+  const ERR_Ok = 0;
   export default {
     name: 'app',
     components:{
       'v-header':header
-    }
+    },
+    data(){
+      return {
+        seller:{}
+      }
+    },
+    created(){
+      this.$http.get('/api/seller').then((response) => {
+          response = response.body;
+          if(response.errno === ERR_Ok){
+             this.seller = response.data
+          }
+      })
+    },
+
   }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import './common/stylus/mixin.styl'
+  @import './common/stylus/mixin'
   .app
     .tab
         display:flex
