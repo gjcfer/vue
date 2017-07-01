@@ -20,6 +20,7 @@ Vue.use(VueResource);
 
 //定义路由
 const routes = [
+  {path:'/',redirect:'/goods'},
   {path:'/goods',component:goods},
   {path:'/seller',component:seller},
   {path:'/ratings',component:ratings},
