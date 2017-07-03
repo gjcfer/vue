@@ -1,12 +1,6 @@
 <template>
-	<!--<div class="star" :class="starType">
+	<div class="star" :class="starType">
 		<span v-for="itemClass in itemClasses" :class="itemClass" class="star-item" track-by="$index"></span>
-	</div>-->
-	<div class="star star-48" >
-    <span track-by="$index" class="star-item on"></span>
-    <span track-by="$index" class="star-item on"></span>
-    <span track-by="$index" class="star-item on"></span>
-    <span track-by="$index" class="star-item on"></span>
 	</div>
 </template>
 
