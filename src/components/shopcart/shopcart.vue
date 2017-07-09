@@ -1,35 +1,64 @@
 <template>
-    <div class="shopcart">
-        <div class="content">
-            <div class="content-left">
-                <div class="logo-wrapper">
-                    <div class="logo" :class="{highlight:totalCount>0}">
-                        <span class="icon-shopping_cart" :class="{highlight:totalCount>0}"></span>
+    <div>
+        <div class="shopcart">
+            <div class="content" @click="toggleList">
+                <div class="content-left">
+                    <div class="logo-wrapper">
+                        <div class="logo" :class="{highlight:totalCount>0}">
+                            <span class="icon-shopping_cart" :class="{highlight:totalCount>0}"></span>
+                        </div>
+                        <div class="num" v-show="totalCount>0">{{totalCount}}</div>
                     </div>
-                    <div class="num" v-show="totalCount>0">{{totalCount}}</div>
+                    <div class="price">￥{{totalPrice}}</div>
+                    <div class="desc">另需配送费￥{{deliveryPrice}}元</div>
                 </div>
-                <div class="price">￥{{totalPrice}}</div>
-                <div class="desc">另需配送费￥{{deliveryPrice}}元</div>
-            </div>
-            <div class="content-right">
-                <div class="pay" :class="payClass">
-                  {{payDesc}}
-                </div>
-            </div>
-        </div>
-        <div class="ball-container">
-            <div v-for="ball in balls">
-                <transition name="drop" @before-enter="beforeDrop"  @enter="dropping" @after-enter="afterDrop">
-                    <div class="ball" v-show="ball.show">
-                        <div class="inner inner-hook"></div>
+                <div class="content-right" @click.stop.prevent="pay">
+                    <div class="pay" :class="payClass">
+                      {{payDesc}}
                     </div>
-                </transition>
+                </div>
             </div>
+            <div class="ball-container">
+                <div v-for="ball in balls">
+                    <transition name="drop" @before-enter="beforeDrop"  @enter="dropping" @after-enter="afterDrop">
+                        <div class="ball" v-show="ball.show">
+                            <div class="inner inner-hook"></div>
+                        </div>
+                    </transition>
+                </div>
+            </div>
+
+            <transition name="fold">
+                <div class="shopcart-list" v-show="listShow">
+                    <div class="list-header">
+                        <h1 class="title">购物车</h1>
+                        <span class="empty" @click="empty">清空</span>
+                    </div>
+                    <div class="list-content" ref="listContent">
+                        <ul>
+                            <li v-for="food in selectFoods" class="food">
+                                <span class="name">{{food.name}}</span>
+                                <div class="price">
+                                    <span>￥{{food.price*food.count}}</span>
+                                </div>
+                                <div class="cartcontrol-wrapper">
+                                    <cartcontrol :food="food"></cartcontrol>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </transition>
         </div>
+        <transition name="fade">
+            <div class="list-mask" @click="hideList" v-show="listShow"></div>
+        </transition>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import BScroll from 'better-scroll'
+  import  cartcontrol from './../cartcontrol/cartcontrol'
   export default {
     name:'shopcart',
     props:{
@@ -39,7 +68,7 @@
           return [
             {
               price: 10,
-              count: 50
+              count: 1
             }
           ]
         }
@@ -73,6 +102,7 @@
           }
         ],
         dropBalls: [],
+        fold:true,
       }
     },
     computed:{
@@ -107,6 +137,27 @@
           return 'enough'
         }
       },
+      listShow(){
+           if(!this.totalCount){
+               this.fold = true
+               return false
+           }
+           let show = !this.fold
+           if(show){
+               if(!this.scroll){
+                   this.$nextTick(() => {
+                       this.scroll = new BScroll(this.$refs.listContent,{
+                           click:true
+                       })
+                   })
+               }else{
+                   this.scroll.refresh()
+               }
+
+           }
+           return show
+      },
+
 
     },
     methods:{
@@ -131,9 +182,9 @@
             let rect = ball.el.getBoundingClientRect();
             let x = rect.left - 32
             let y = -(window.innerHeight - rect.top - 22)
-            console.log(x,y)
-            console.log(ball.el)
-            console.log(rect.left,rect.top)
+            //console.log(x,y)
+           // console.log(ball.el)
+            //console.log(rect.left,rect.top)
             el.style.display = ''
             el.style.webkitTransform = `translate3d(0,${y}px,0)`
             el.style.transform = `translate3d(0,${y}px,0)`
@@ -160,11 +211,30 @@
           ball.show = false;
           el.style.display = 'none';
         }
+      },
+      toggleList(){
+          if(!this.totalCount){
+              return
+          }
+          this.fold = !this.fold
+      },
+      hideList(){
+        this.fold = true
+      },
+      empty(){
+          this.selectFoods.forEach((food) => {
+              food.count = 0;
+          })
+      },
+      pay(){
+          if(this.totalPrice < this.minPrice){
+              return
+          }
+          alert(`支付${this.totalPrice}`)
       }
-
-
-
-
+    },
+    components:{
+        cartcontrol
     }
   }
 </script>
@@ -191,7 +261,7 @@
           vertical-align: top
           position: relative
           top: -10px
-          margin: 0 12px
+          margin: 0 2px
           padding: 6px
           width: 56px
           height: 56px
@@ -241,7 +311,7 @@
         .desc
           display: inline-block
           vertical-align: top
-          margin: 12px 0 0 12px
+          margin: 12px 0 0 4px
           line-height: 24px
           font-size: 10px
       .content-right
