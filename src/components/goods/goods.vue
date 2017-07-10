@@ -157,7 +157,7 @@
               return;
           }
           this.selectedFood = food;
-          //this.$refs.food.show();
+          this.$refs.food.show();
       }
     }
   }
