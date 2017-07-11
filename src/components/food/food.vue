@@ -1,6 +1,6 @@
 <template>
     <transition name="move">
-      <div class="food" v-show="showFlag">
+      <div class="food" v-show="showFlag" ref="food">
           <div class="food-content">
               <div class="image-header">
                 <img :src="food.image">
@@ -19,10 +19,10 @@
                       <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                   </div>
                   <div class="cartcontrol-wrapper">
-                      <cartcontrol :food="food"></cartcontrol>
+                      <cartcontrol @add="addFood" :food="food"></cartcontrol>
                   </div>
                   <transition name="fade">
-                    <div class="buy" v-show="!food.count || food.count === 0">
+                    <div @click.stop.prevent="addFirst" class="buy" v-show="!food.count || food.count === 0">
                       加入购物车
                     </div>
                   </transition>
@@ -51,10 +51,29 @@
         methods:{
           show(){
             this.showFlag = true;
+            this.$nextTick(() => {
+                if(!this.scroll){
+                  this.scroll = new BScroll(this.$refs.food,{
+                    click:true
+                  })
+                }else{
+                  this.scroll.refresh()
+                }
+            })
           },
           hide(){
             this.showFlag = false
-          }
+          },
+          addFirst(event){
+              if(!event._constructed){
+                return
+              }
+              this.$emit('add', event.target);
+              Vue.set(this.food,'count',1)
+          },
+          addFood(target) {
+            this.$emit('add', target);
+          },
         },
         components:{
           cartcontrol,
