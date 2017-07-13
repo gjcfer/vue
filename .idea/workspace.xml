@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fe6d0b5e-8abf-462e-a584-f36dc32d42fb" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/food/food.vue" afterPath="$PROJECT_DIR$/src/components/food/food.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/ratingselect/ratingselect.vue" afterPath="$PROJECT_DIR$/src/components/ratingselect/ratingselect.vue" />
     </list>
     <ignored path="elm.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -380,7 +378,7 @@
       <workItem from="1499822191818" duration="2490000" />
       <workItem from="1499868323126" duration="8000" />
       <workItem from="1499868451503" duration="3977000" />
-      <workItem from="1499911857504" duration="10143000" />
+      <workItem from="1499911857504" duration="10158000" />
     </task>
     <task id="LOCAL-00001" summary="项目准备工作，页面骨架">
       <created>1498806781692</created>
@@ -452,11 +450,18 @@
       <option name="project" value="LOCAL" />
       <updated>1499767500344</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="food部分(1)">
+      <created>1499940333457</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1499940333457</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="99945000" />
+    <option name="totallyTimeSpent" value="99960000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
