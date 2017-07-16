@@ -150,7 +150,7 @@
             height += item.clientHeight;
             this.listHeight.push(height);
         }
-        console.log(this.listHeight)
+        //console.log(this.listHeight)
       },
       selectFood(food,event){
           if (!event._constructed) {
