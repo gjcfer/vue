@@ -53,12 +53,14 @@
         <transition name="fade">
             <div class="list-mask" @click="hideList" v-show="listShow"></div>
         </transition>
+        <acting v-show="zhifu"></acting>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll'
   import  cartcontrol from './../cartcontrol/cartcontrol'
+  import  acting from './../acting/acting'
   export default {
     name:'shopcart',
     props:{
@@ -103,6 +105,7 @@
         ],
         dropBalls: [],
         fold:true,
+        zhifu:false
       }
     },
     computed:{
@@ -230,11 +233,22 @@
           if(this.totalPrice < this.minPrice){
               return
           }
-          alert(`支付${this.totalPrice}`)
+
+          console.log(this.zhifu)
+          this.zhifu = true;
+          this.zhifu&&setTimeout(() => {
+              this.zhifued = true
+              setTimeout(() => {
+                window.location.href="https://ds.alipay.com/?from=pc"
+              },1000)
+          },1500)
+          //window.location.href="https://ds.alipay.com/?from=pc"
+          //alert(`支付${this.totalPrice}`)
       }
     },
     components:{
-        cartcontrol
+        cartcontrol,
+        acting
     }
   }
 </script>

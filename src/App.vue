@@ -19,6 +19,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {datajson} from './common/js/datajson'
   import {urlParse} from './common/js/util';
   import header from './components/header/header';
   const ERR_OK = 0;
@@ -38,12 +39,20 @@
       }
     },
     created(){
-      this.$http.get('/api/seller?id=' + this.seller.id).then((response) => {
+      /*this.$http.get('/api/seller?id=' + this.seller.id).then((response) => {
         response = response.body;
         if (response.errno === ERR_OK) {
           this.seller = Object.assign({}, this.seller, response.data);
         }
-      });
+      });*/
+
+      //模拟异步请求
+      if(datajson.errno === ERR_OK){
+        this.seller = Object.assign({},this.seller,datajson.seller)
+        //console.log(this.seller)
+      }
+
+
     },
 
   }

@@ -56,6 +56,7 @@
   import shopcart from './../shopcart/shopcart'
   import cartcontrol from './../cartcontrol/cartcontrol'
   import food from './../food/food'
+  import {datajson} from './../../common/js/datajson'
   const ERR_OK = 0
   export default{
     name:'goods',
@@ -102,17 +103,27 @@
       food,
     },
     created(){
-      this.$http.get('/api/goods').then((response) => {
+      /*this.$http.get('/api/goods').then((response) => {
         response = response.body
         if(response.errno === ERR_OK){
           this.goods = response.data
-          //console.log(this.goods)
+          console.log(response.data)
           this.$nextTick(() => {
             this._initScroll()
             this._calculateHeight()
           })
         }
-      })
+      })*/
+
+      //模拟异步请求
+      if(datajson.errno === ERR_OK){
+        this.goods = datajson.goods
+        this.$nextTick(() => {
+          this._initScroll()
+          this._calculateHeight()
+        })
+      }
+
     },
     methods:{
       _drop(target){

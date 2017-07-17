@@ -56,6 +56,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {datajson} from './../../common/js/datajson'
   import BScroll from 'better-scroll'
   import split from './../split/split'
   import ratingselect from './../ratingselect/ratingselect'
@@ -78,7 +79,7 @@
         }
       },
       created(){
-        this.$http.get('/api/ratings').then((response) => {
+        /*this.$http.get('/api/ratings').then((response) => {
             response = response.body;
             if(response.errno === ERR_OK){
                 this.ratings = response.data;
@@ -88,7 +89,19 @@
                     })
                 })
             }
-        })
+        })*/
+
+        //模拟异步请求
+        //console.log(datajson)
+        if(datajson.errno === ERR_OK){
+            this.ratings = datajson.ratings;
+            this.$nextTick(() => {
+                this.scroll = new BScroll(this.$refs.ratings,{
+                  click:true,
+                })
+            })
+        }
+
       },
       methods: {
         needShow(type, text) {

@@ -65,7 +65,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   import BScroll from 'better-scroll'
   import {saveToLocal, loadFormLocal} from './../../common/js/util';
   import star from './../star/star'
